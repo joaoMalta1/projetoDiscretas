@@ -1,0 +1,28 @@
+Parâmetros de cada grupo
+Todos os grupos deverão utilizar o número de vértices n = 10.
+
+Cada grupo deverá utilizar os parâmetros p e seed específicos do seu grupo.
+
+ Esses parâmetros deverão ser utilizados, sem alteração, em todos os experimentos do projeto, tanto na busca pelo primeiro grafo Euleriano quanto no experimento com 1000 grafos.
+
+Segue uma tabela com os parâmetros definidos por grupo:
+
+Grupo	p	Seed
+A	0,30	137
+B	0,30	284
+C	0,30	391
+D	0,30	482 (meu grupo, grupo D)
+E	0,30	573
+F	0,30	641
+G	0,30	728
+H	0,30	816
+I	0,30	934
+J	0,30	1057
+K	0,30	1163
+L	0,30	1289
+M	0,30	1376
+N	0,30	1492
+O	0,30	1587
+A seed deverá ser utilizada para inicializar o gerador de números aleatórios, permitindo a reprodução dos experimentos a partir dos mesmos parâmetros.
+
+Cada grupo deverá utilizar exclusivamente os parâmetros indicados para seu grupo.
