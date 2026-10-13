@@ -18,18 +18,22 @@ P = 0.30
 SEED = 482
 
 
-def gerar_grafo(n: int, p: float, rng: random.Random = random) -> Grafo:
-    """Inclui cada um dos pares (u, v), u < v, com probabilidade p."""
-    if n < 1:
-        raise ValueError("n deve ser positivo")
-    if not 0 <= p <= 1:
-        raise ValueError("p deve estar entre 0 e 1")
+def gerar_grafo(qtd_vertices, prob):
+    import random as r
 
-    grafo = {v: set() for v in range(1, n + 1)}
-    for u in range(1, n + 1):
-        for v in range(u + 1, n + 1):
-            if rng.random() < p:
-                grafo[u].add(v)
+    if qtd_vertices < 1:
+        raise ValueError(" qtd_vertices nao pode ser negativo")
+    if not 0 <= prob <= 1:
+        raise ValueError("probabilidade deve estar entre 0 e 1")
+
+    grafo = {}
+    for v in range(1, qtd_vertices + 1):
+        grafo[v] = set() # gera um conjunto pra cada um dos vertices do grafo 
+
+    for u in range(1, qtd_vertices + 1): # para cada vertice do grafo 
+        for v in range(u + 1, qtd_vertices + 1):# percorre os outros vertices sem ser o atual 
+            if r.random() < prob: # calcula a chance de ter a aresta 
+                grafo[u].add(v) # adciona a aresta tanto no nó u quanto no nó v
                 grafo[v].add(u)
     return grafo
 
