@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+<rect width="800" height="800" fill="white"/>
+<text x="400" y="58" text-anchor="middle" font-family="Arial" font-size="25" fill="#183153">Grafo Euleriano - seed 482, tentativa 1294</text>
+<line x1="670.00" y1="410.00" x2="316.57" y2="666.79" stroke="#718096" stroke-width="2"/>
+<line x1="670.00" y1="410.00" x2="130.00" y2="410.00" stroke="#718096" stroke-width="2"/>
+<line x1="483.43" y1="666.79" x2="181.57" y2="568.70" stroke="#718096" stroke-width="2"/>
+<line x1="483.43" y1="666.79" x2="316.57" y2="153.21" stroke="#718096" stroke-width="2"/>
+<line x1="316.57" y1="666.79" x2="181.57" y2="568.70" stroke="#718096" stroke-width="2"/>
+<line x1="316.57" y1="666.79" x2="316.57" y2="153.21" stroke="#718096" stroke-width="2"/>
+<line x1="316.57" y1="666.79" x2="618.43" y2="251.30" stroke="#718096" stroke-width="2"/>
+<line x1="130.00" y1="410.00" x2="483.43" y2="153.21" stroke="#718096" stroke-width="2"/>
+<line x1="181.57" y1="251.30" x2="316.57" y2="153.21" stroke="#718096" stroke-width="2"/>
+<line x1="181.57" y1="251.30" x2="618.43" y2="251.30" stroke="#718096" stroke-width="2"/>
+<line x1="316.57" y1="153.21" x2="618.43" y2="251.30" stroke="#718096" stroke-width="2"/>
+<line x1="483.43" y1="153.21" x2="618.43" y2="251.30" stroke="#718096" stroke-width="2"/>
+<circle cx="670.00" cy="410.00" r="42" fill="#dceeff" stroke="#183153" stroke-width="2"/>
+<text x="670.00" y="406.00" text-anchor="middle" font-family="Arial" font-size="18" fill="#183153">1</text>
+<text x="670.00" y="427.00" text-anchor="middle" font-family="Arial" font-size="13" fill="#183153">grau 2</text>
+<circle cx="618.43" cy="568.70" r="42" fill="#dceeff" stroke="#183153" stroke-width="2"/>
+<text x="618.43" y="564.70" text-anchor="middle" font-family="Arial" font-size="18" fill="#183153">2</text>
+<text x="618.43" y="585.70" text-anchor="middle" font-family="Arial" font-size="13" fill="#183153">grau 0</text>
+<circle cx="483.43" cy="666.79" r="42" fill="#dceeff" stroke="#183153" stroke-width="2"/>
+<text x="483.43" y="662.79" text-anchor="middle" font-family="Arial" font-size="18" fill="#183153">3</text>
+<text x="483.43" y="683.79" text-anchor="middle" font-family="Arial" font-size="13" fill="#183153">grau 2</text>
+<circle cx="316.57" cy="666.79" r="42" fill="#dceeff" stroke="#183153" stroke-width="2"/>
+<text x="316.57" y="662.79" text-anchor="middle" font-family="Arial" font-size="18" fill="#183153">4</text>
+<text x="316.57" y="683.79" text-anchor="middle" font-family="Arial" font-size="13" fill="#183153">grau 4</text>
+<circle cx="181.57" cy="568.70" r="42" fill="#dceeff" stroke="#183153" stroke-width="2"/>
+<text x="181.57" y="564.70" text-anchor="middle" font-family="Arial" font-size="18" fill="#183153">5</text>
+<text x="181.57" y="585.70" text-anchor="middle" font-family="Arial" font-size="13" fill="#183153">grau 2</text>
+<circle cx="130.00" cy="410.00" r="42" fill="#dceeff" stroke="#183153" stroke-width="2"/>
+<text x="130.00" y="406.00" text-anchor="middle" font-family="Arial" font-size="18" fill="#183153">6</text>
+<text x="130.00" y="427.00" text-anchor="middle" font-family="Arial" font-size="13" fill="#183153">grau 2</text>
+<circle cx="181.57" cy="251.30" r="42" fill="#dceeff" stroke="#183153" stroke-width="2"/>
+<text x="181.57" y="247.30" text-anchor="middle" font-family="Arial" font-size="18" fill="#183153">7</text>
+<text x="181.57" y="268.30" text-anchor="middle" font-family="Arial" font-size="13" fill="#183153">grau 2</text>
+<circle cx="316.57" cy="153.21" r="42" fill="#dceeff" stroke="#183153" stroke-width="2"/>
+<text x="316.57" y="149.21" text-anchor="middle" font-family="Arial" font-size="18" fill="#183153">8</text>
+<text x="316.57" y="170.21" text-anchor="middle" font-family="Arial" font-size="13" fill="#183153">grau 4</text>
+<circle cx="483.43" cy="153.21" r="42" fill="#dceeff" stroke="#183153" stroke-width="2"/>
+<text x="483.43" y="149.21" text-anchor="middle" font-family="Arial" font-size="18" fill="#183153">9</text>
+<text x="483.43" y="170.21" text-anchor="middle" font-family="Arial" font-size="13" fill="#183153">grau 2</text>
+<circle cx="618.43" cy="251.30" r="42" fill="#dceeff" stroke="#183153" stroke-width="2"/>
+<text x="618.43" y="247.30" text-anchor="middle" font-family="Arial" font-size="18" fill="#183153">10</text>
+<text x="618.43" y="268.30" text-anchor="middle" font-family="Arial" font-size="13" fill="#183153">grau 4</text>
+</svg>
