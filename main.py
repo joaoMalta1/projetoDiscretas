@@ -38,9 +38,16 @@ def gerar_grafo(qtd_vertices, prob):
     return grafo
 
 
-def arestas(grafo: Grafo) -> list[tuple[int, int]]:
-    """Devolve cada aresta uma vez, em ordem crescente."""
-    return sorted((u, v) for u, vizinhos in grafo.items() for v in vizinhos if u < v)
+def arestas(grafo): # retornar as aretas ordenadas 
+    arestas = []
+
+    for u, vizinhos in grafo.items():     # percorre u e seus vizinhos 
+        for v in vizinhos:                # para cada vizinho v 
+            if u < v:                     # se u for menor que v adciona tupla na lista 
+                arestas.append((u, v))    
+    arestas_ordenadas = sorted(arestas)
+
+    return arestas_ordenadas
 
 
 def grafo_de_arestas(n: int, lista: Iterable[tuple[int, int]]) -> Grafo:
