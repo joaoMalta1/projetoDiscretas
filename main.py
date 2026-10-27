@@ -18,9 +18,7 @@ P = 0.30
 SEED = 482
 
 
-def gerar_grafo(qtd_vertices, prob):
-    import random as r
-
+def gerar_grafo(qtd_vertices, prob, rng):
     if qtd_vertices < 1:
         raise ValueError(" qtd_vertices nao pode ser negativo")
     if not 0 <= prob <= 1:
@@ -32,7 +30,7 @@ def gerar_grafo(qtd_vertices, prob):
 
     for u in range(1, qtd_vertices + 1): # para cada vertice do grafo 
         for v in range(u + 1, qtd_vertices + 1):# percorre os outros vertices sem ser o atual 
-            if r.random() < prob: # calcula a chance de ter a aresta 
+            if rng.random() < prob: # calcula a chance de ter a aresta 
                 grafo[u].add(v) # adciona a aresta tanto no nó u quanto no nó v
                 grafo[v].add(u)
     return grafo
@@ -127,7 +125,7 @@ def euleriano(grafo):
         return False
 
 
-def circuito_euler(grafo: Grafo) -> list[int] | None:
+def circuito_euler(grafo):
     """Constrói o circuito por Hierholzer sem modificar o grafo recebido.
 
     O uso de min(vizinhos) torna o percurso determinístico e leva a
