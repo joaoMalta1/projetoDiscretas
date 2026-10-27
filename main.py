@@ -50,49 +50,81 @@ def arestas(grafo): # retornar as aretas ordenadas
     return arestas_ordenadas
 
 
-def grafo_de_arestas(n: int, lista: Iterable[tuple[int, int]]) -> Grafo:
-    """Monta um grafo simples; útil para exemplos e testes."""
-    if n < 1:
+def grafo_de_arestas(n_vertices, lista): #funcao que ajuda a testar grafos especificos 
+    if n_vertices < 1:
         raise ValueError("n deve ser positivo")
-    grafo = {v: set() for v in range(1, n + 1)}
+    grafo = {}                             
+    for v in range(1, n_vertices + 1):
+        grafo[v] = set()
+
     for u, v in lista:
-        if u not in grafo or v not in grafo or u == v or v in grafo[u]:
-            raise ValueError(f"aresta invalida ou repetida: ({u}, {v})")
+        if u not in grafo or v not in grafo or u == v or v in grafo[u]: #valida as arestas, se nao tem laco, se nao tem paralelas e se conecta somenets os vertices do grfo
+            raise ValueError(f"aresta invalida: ({u}, {v})")
         grafo[u].add(v)
         grafo[v].add(u)
     return grafo
 
 
-def graus(grafo: Grafo) -> dict[int, int]:
-    return {v: len(vizinhos) for v, vizinhos in grafo.items()}
+def graus(grafo):
+    resultado = {}                         
+    for v, vizinhos in grafo.items():
+        resultado[v] = len(vizinhos)       # calcula o grau
+    return resultado                       # dict com os graus 
 
 
-def conexo(grafo: Grafo) -> bool:
-    """Considera apenas os vértices de grau não nulo."""
-    ativos = {v for v, vizinhos in grafo.items() if vizinhos}
-    if not ativos:
-        return True  # Sem vértices ativos, a condição vale por vacuidade.
+def conexo(grafo):
+    ativos = set() # ativos == possuem alguma aresta
+    for v, vizinhos in grafo.items():
+        if len(vizinhos) > 0:    
+            ativos.add(v)
 
+    if len(ativos) == 0:
+        return True # caso base 
+
+    visitados = set()
     inicio = min(ativos)
-    visitados = {inicio}
-    fila = deque([inicio])
-    while fila:
-        u = fila.popleft()
-        for v in grafo[u]:
-            if v not in visitados:
-                visitados.add(v)
-                fila.append(v)
-    return visitados == ativos
+    visitados.add(inicio)
+
+    fila = deque() #cria fila 
+    fila.append(inicio) #bota o inicio na fila 
+
+    while len(fila) > 0:
+        u = fila.popleft() #tira o primeiro vertice da fila 
+        
+        for v in grafo[u]:             #percorre todos os vizinhos 
+            if v not in visitados:     # se o vizinho ainda nao foi visitado
+                visitados.add(v)       # marca como visitado
+                fila.append(v) #bota na fila pra visitar os vizinhos de v  
+
+    if visitados == ativos:
+        return True
+    else:
+        return False
 
 
-def euleriano(grafo: Grafo) -> bool:
-    """Aplica explicitamente conectividade e paridade dos graus."""
-    if not any(grafo.values()):
-        # Convenção do trabalho: uma rede sem ruas não tem missão a cumprir.
+def euleriano(grafo):
+    tem_arestas = False
+    for vizinhos in grafo.values():
+        if len(vizinhos) > 0:
+            tem_arestas = True
+            break
+
+    if tem_arestas == False:
         return False
     cond_conexo = conexo(grafo)
-    cond_pares = all(grau % 2 == 0 for grau in graus(grafo).values() if grau > 0)
-    return cond_conexo and cond_pares
+    cond_pares = True #assumimos que atende essa condicao 
+    dicionario_graus = graus(grafo)
+    
+    for grau in dicionario_graus.values(): 
+        if grau > 0:
+            if grau % 2 != 0:          #tem grau impar 
+                cond_pares = False     # A regra foi quebrada
+                break
+
+    if cond_conexo == True and cond_pares == True:
+        return True
+    else:
+        return False
 
 
 def circuito_euler(grafo: Grafo) -> list[int] | None:
