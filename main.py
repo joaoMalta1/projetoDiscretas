@@ -1,13 +1,7 @@
-"""Experimentos com circuitos de Euler para o grupo D da INF1631."""
-
 from __future__ import annotations
-
-import argparse
+import random, time, math, argparse
 from collections import deque
-import math
 from pathlib import Path
-import random
-import time
 from collections.abc import Iterable
 from xml.sax.saxutils import escape
 
@@ -126,50 +120,86 @@ def euleriano(grafo):
 
 
 def circuito_euler(grafo):
-    """Constrói o circuito por Hierholzer sem modificar o grafo recebido.
-
-    O uso de min(vizinhos) torna o percurso determinístico e leva a
-    O(V + E * delta), onde delta é o grau máximo.
-    """
-    if not euleriano(grafo):
+    if euleriano(grafo) == False: 
         return None
 
-    restante = {v: vizinhos.copy() for v, vizinhos in grafo.items()}
-    inicio = min(v for v, vizinhos in restante.items() if vizinhos)
-    pilha = [inicio]
-    percurso_reverso: list[int] = []
-    while pilha:
-        u = pilha[-1]
-        if restante[u]:
-            v = min(restante[u])
+    restante = {}
+    for v, vizinhos in grafo.items():
+        restante[v] = vizinhos.copy()  #copia o grafo pra poder apagar arestas 
+
+    vertices_ativos = []
+    for v, vizinhos in restante.items():
+        if len(vizinhos) > 0:  # apenas vertices com ruas conectadas
+            vertices_ativos.append(v)
+    inicio = min(vertices_ativos)
+
+    pilha = []  # usa pilha pra guardar o caminho que ta sendo explorado
+    pilha.append(inicio)
+    percurso_reverso = []
+
+    while len(pilha) > 0:
+        u = pilha[-1] # explora o ultimo vertice mas sem remover 
+        
+        if len(restante[u]) > 0:       
+            # ainda tem aresta no ponto em que estamos 
+            v = min(restante[u])  #pega o menor
+
+            # apaga a aresta 
             restante[u].remove(v)
             restante[v].remove(u)
+            
+            # vai pro novo  vertice e coloca ele no topo da pilha
             pilha.append(v)
+            
         else:
-            percurso_reverso.append(pilha.pop())
-    return percurso_reverso[::-1]
+            # todas as arestas do vertice em que estamos ja foram apagadas
+            vertice_preso = pilha.pop() # Tira o vértice do topo da pilha
+            percurso_reverso.append(vertice_preso) # Coloca no caminho final
+
+    percurso_reverso.reverse()
+    return percurso_reverso
 
 
-def valida_circuito(grafo: Grafo, circuito: list[int] | None) -> bool:
-    """Confere fechamento e uso de cada aresta existente exatamente uma vez."""
-    if not any(grafo.values()) or not circuito:
+def valida_circuito(grafo, circuito):
+    tem_arestas = False
+    for vizinhos in grafo.values():
+        if len(vizinhos) > 0:
+            tem_arestas = True
+            break
+            
+    if tem_arestas == False or len(circuito) == 0:
         return False
+
     if circuito[0] != circuito[-1]:
         return False
 
-    arestas_originais = {frozenset((u, v)) for u, v in arestas(grafo)}
-    if len(circuito) - 1 != len(arestas_originais):
+    arestas_originais = set()
+    for u, vizinhos in grafo.items():
+        for v in vizinhos: 
+            aresta = frozenset([u, v]) # frozenset garante que a aresta (1, 2) eh igual a (2,1), dado que o grafo eh nao direcionado
+            arestas_originais.add(aresta)
+            
+    # se a quantidade de passos for diferente do total de ruas deu ruim 
+    if (len(circuito) - 1) != len(arestas_originais):
         return False
 
-    usadas: set[frozenset[int]] = set()
-    for u, v in zip(circuito, circuito[1:]):
-        if u not in grafo or v not in grafo[u]:
+    usadas = set()
+    for i in range(len(circuito) - 1):
+        u = circuito[i]       # origem
+        v = circuito[i + 1]   # destino
+
+        if u not in grafo or v not in grafo[u]: # pra nao evitar "saltos" no grafo
             return False
-        aresta = frozenset((u, v))
-        if aresta in usadas:
+            
+        aresta_atual = frozenset([u, v])
+        if aresta_atual in usadas:
             return False
-        usadas.add(aresta)
-    return usadas == arestas_originais
+        usadas.add(aresta_atual)
+    
+    if usadas == arestas_originais:
+        return True
+    else:
+        return False
 
 
 def _desenhar_svg(grafo: Grafo, arquivo: str, titulo: str) -> str:
