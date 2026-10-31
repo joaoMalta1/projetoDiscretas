@@ -1,14 +1,7 @@
-"""Experimentos com circuitos de Euler para o grupo D da INF1631."""
-
 from __future__ import annotations
-
-import argparse
+import random, time, math, argparse
 from collections import deque
-import math
 from pathlib import Path
-import random
-import time
-from collections.abc import Iterable
 from xml.sax.saxutils import escape
 
 
@@ -18,117 +11,195 @@ P = 0.30
 SEED = 482
 
 
-def gerar_grafo(n: int, p: float, rng: random.Random = random) -> Grafo:
-    """Inclui cada um dos pares (u, v), u < v, com probabilidade p."""
-    if n < 1:
-        raise ValueError("n deve ser positivo")
-    if not 0 <= p <= 1:
-        raise ValueError("p deve estar entre 0 e 1")
+def gerar_grafo(qtd_vertices, prob, rng=random):
+    if qtd_vertices < 1:
+        raise ValueError("qtd_vertices deve ser positivo")
+    if not 0 <= prob <= 1:
+        raise ValueError("probabilidade deve estar entre 0 e 1")
 
-    grafo = {v: set() for v in range(1, n + 1)}
-    for u in range(1, n + 1):
-        for v in range(u + 1, n + 1):
-            if rng.random() < p:
-                grafo[u].add(v)
+    grafo = {}
+    for v in range(1, qtd_vertices + 1):
+        grafo[v] = set() # gera um conjunto pra cada um dos vertices do grafo
+
+    for u in range(1, qtd_vertices + 1): # para cada vertice do grafo
+        for v in range(u + 1, qtd_vertices + 1):# percorre os outros vertices sem ser o atual
+            if rng.random() < prob: # calcula a chance de ter a aresta
+                grafo[u].add(v) # adciona a aresta tanto no nó u quanto no nó v
                 grafo[v].add(u)
     return grafo
 
 
-def arestas(grafo: Grafo) -> list[tuple[int, int]]:
-    """Devolve cada aresta uma vez, em ordem crescente."""
-    return sorted((u, v) for u, vizinhos in grafo.items() for v in vizinhos if u < v)
+def arestas(grafo): # retornar as aretas ordenadas
+    arestas = []
+
+    for u, vizinhos in grafo.items():     # percorre u e seus vizinhos
+        for v in vizinhos:                # para cada vizinho v
+            if u < v:                     # se u for menor que v adciona tupla na lista
+                arestas.append((u, v))
+    arestas_ordenadas = sorted(arestas)
+
+    return arestas_ordenadas
 
 
-def grafo_de_arestas(n: int, lista: Iterable[tuple[int, int]]) -> Grafo:
-    """Monta um grafo simples; útil para exemplos e testes."""
-    if n < 1:
+def grafo_de_arestas(n_vertices, lista): #funcao que ajuda a testar grafos especificos
+    if n_vertices < 1:
         raise ValueError("n deve ser positivo")
-    grafo = {v: set() for v in range(1, n + 1)}
+    grafo = {}
+    for v in range(1, n_vertices + 1):
+        grafo[v] = set()
+
     for u, v in lista:
-        if u not in grafo or v not in grafo or u == v or v in grafo[u]:
-            raise ValueError(f"aresta invalida ou repetida: ({u}, {v})")
+        if u not in grafo or v not in grafo or u == v or v in grafo[u]: #valida as arestas, se nao tem laco, se nao tem paralelas e se conecta somenets os vertices do grfo
+            raise ValueError(f"aresta invalida: ({u}, {v})")
         grafo[u].add(v)
         grafo[v].add(u)
     return grafo
 
 
-def graus(grafo: Grafo) -> dict[int, int]:
-    return {v: len(vizinhos) for v, vizinhos in grafo.items()}
+def graus(grafo):
+    resultado = {}
+    for v, vizinhos in grafo.items():
+        resultado[v] = len(vizinhos)       # calcula o grau
+    return resultado                       # dict com os graus
 
 
-def conexo(grafo: Grafo) -> bool:
-    """Considera apenas os vértices de grau não nulo."""
-    ativos = {v for v, vizinhos in grafo.items() if vizinhos}
-    if not ativos:
-        return True  # Sem vértices ativos, a condição vale por vacuidade.
+def conexo(grafo):
+    ativos = set() # ativos == possuem alguma aresta
+    for v, vizinhos in grafo.items():
+        if len(vizinhos) > 0:
+            ativos.add(v)
 
+    if len(ativos) == 0:
+        return True # caso base
+
+    visitados = set()
     inicio = min(ativos)
-    visitados = {inicio}
-    fila = deque([inicio])
-    while fila:
-        u = fila.popleft()
-        for v in grafo[u]:
-            if v not in visitados:
-                visitados.add(v)
-                fila.append(v)
-    return visitados == ativos
+    visitados.add(inicio)
+
+    fila = deque() #cria fila
+    fila.append(inicio) #bota o inicio na fila
+
+    while len(fila) > 0:
+        u = fila.popleft() #tira o primeiro vertice da fila
+
+        for v in grafo[u]:             #percorre todos os vizinhos
+            if v not in visitados:     # se o vizinho ainda nao foi visitado
+                visitados.add(v)       # marca como visitado
+                fila.append(v) #bota na fila pra visitar os vizinhos de v
+
+    if visitados == ativos:
+        return True
+    else:
+        return False
 
 
-def euleriano(grafo: Grafo) -> bool:
-    """Aplica explicitamente conectividade e paridade dos graus."""
-    if not any(grafo.values()):
-        # Convenção do trabalho: uma rede sem ruas não tem missão a cumprir.
+def euleriano(grafo):
+    tem_arestas = False
+    for vizinhos in grafo.values():
+        if len(vizinhos) > 0:
+            tem_arestas = True
+            break
+
+    if tem_arestas == False:
         return False
     cond_conexo = conexo(grafo)
-    cond_pares = all(grau % 2 == 0 for grau in graus(grafo).values() if grau > 0)
-    return cond_conexo and cond_pares
+    cond_pares = True #assumimos que atende essa condicao
+    dicionario_graus = graus(grafo)
+
+    for grau in dicionario_graus.values():
+        if grau > 0:
+            if grau % 2 != 0:          #tem grau impar
+                cond_pares = False     # A regra foi quebrada
+                break
+
+    if cond_conexo == True and cond_pares == True:
+        return True
+    else:
+        return False
 
 
-def circuito_euler(grafo: Grafo) -> list[int] | None:
-    """Constrói o circuito por Hierholzer sem modificar o grafo recebido.
-
-    O uso de min(vizinhos) torna o percurso determinístico e leva a
-    O(V + E * delta), onde delta é o grau máximo.
-    """
-    if not euleriano(grafo):
+def circuito_euler(grafo):
+    if euleriano(grafo) == False:
         return None
 
-    restante = {v: vizinhos.copy() for v, vizinhos in grafo.items()}
-    inicio = min(v for v, vizinhos in restante.items() if vizinhos)
-    pilha = [inicio]
-    percurso_reverso: list[int] = []
-    while pilha:
-        u = pilha[-1]
-        if restante[u]:
-            v = min(restante[u])
+    restante = {}
+    for v, vizinhos in grafo.items():
+        restante[v] = vizinhos.copy()  #copia o grafo pra poder apagar arestas
+
+    vertices_ativos = []
+    for v, vizinhos in restante.items():
+        if len(vizinhos) > 0:  # apenas vertices com ruas conectadas
+            vertices_ativos.append(v)
+    inicio = min(vertices_ativos)
+
+    pilha = []  # usa pilha pra guardar o caminho que ta sendo explorado
+    pilha.append(inicio)
+    percurso_reverso = []
+
+    while len(pilha) > 0:
+        u = pilha[-1] # explora o ultimo vertice mas sem remover
+
+        if len(restante[u]) > 0:
+            # ainda tem aresta no ponto em que estamos
+            v = min(restante[u])  #pega o menor
+
+            # apaga a aresta
             restante[u].remove(v)
             restante[v].remove(u)
+
+            # vai pro novo  vertice e coloca ele no topo da pilha
             pilha.append(v)
+
         else:
-            percurso_reverso.append(pilha.pop())
-    return percurso_reverso[::-1]
+            # todas as arestas do vertice em que estamos ja foram apagadas
+            vertice_preso = pilha.pop() # Tira o vértice do topo da pilha
+            percurso_reverso.append(vertice_preso) # Coloca no caminho final
+
+    percurso_reverso.reverse()
+    return percurso_reverso
 
 
-def valida_circuito(grafo: Grafo, circuito: list[int] | None) -> bool:
-    """Confere fechamento e uso de cada aresta existente exatamente uma vez."""
-    if not any(grafo.values()) or not circuito:
+def valida_circuito(grafo, circuito):
+    tem_arestas = False
+    for vizinhos in grafo.values():
+        if len(vizinhos) > 0:
+            tem_arestas = True
+            break
+
+    # sem ruas, sem circuito (convencao do trabalho) ou circuito vazio: invalido
+    if tem_arestas == False or circuito is None or len(circuito) == 0:
         return False
+
     if circuito[0] != circuito[-1]:
         return False
 
-    arestas_originais = {frozenset((u, v)) for u, v in arestas(grafo)}
-    if len(circuito) - 1 != len(arestas_originais):
+    arestas_originais = set()
+    for u, vizinhos in grafo.items():
+        for v in vizinhos:
+            aresta = frozenset([u, v]) # frozenset garante que a aresta (1, 2) eh igual a (2,1), dado que o grafo eh nao direcionado
+            arestas_originais.add(aresta)
+
+    # se a quantidade de passos for diferente do total de ruas deu ruim
+    if (len(circuito) - 1) != len(arestas_originais):
         return False
 
-    usadas: set[frozenset[int]] = set()
-    for u, v in zip(circuito, circuito[1:]):
-        if u not in grafo or v not in grafo[u]:
+    usadas = set()
+    for i in range(len(circuito) - 1):
+        u = circuito[i]       # origem
+        v = circuito[i + 1]   # destino
+
+        if u not in grafo or v not in grafo[u]: # pra nao evitar "saltos" no grafo
             return False
-        aresta = frozenset((u, v))
-        if aresta in usadas:
+
+        aresta_atual = frozenset([u, v])
+        if aresta_atual in usadas:
             return False
-        usadas.add(aresta)
-    return usadas == arestas_originais
+        usadas.add(aresta_atual)
+
+    if usadas == arestas_originais:
+        return True
+    else:
+        return False
 
 
 def _desenhar_svg(grafo: Grafo, arquivo: str, titulo: str) -> str:
