@@ -4,8 +4,15 @@
 | --- | --- |
 | Disciplina | INF1631 |
 | Grupo | D |
-| Integrantes | Preencher com os nomes do grupo |
 | Parâmetros oficiais | n = 10, p = 0,30, seed = 482 |
+
+### Integrantes
+
+| Nome | Matrícula |
+| --- | --- |
+| Rafael Soares Estevão | 2320470 |
+|  |  |
+|  |  |
 
 ## 1. Problema
 
@@ -32,7 +39,7 @@ os 45 pares `(u, v)`, com `u < v`, em ordem fixa e usa um gerador
 | `conexo` | Busca em largura nos vértices de grau não nulo | O(V + E) |
 | `euleriano` | Verifica conectividade e graus pares | O(V + E) |
 | `circuito_euler` | Hierholzer iterativo | O(V + E·Δ) |
-| `valida_circuito` | Confere fechamento e arestas usadas | O(V + E log E) |
+| `valida_circuito` | Confere fechamento e arestas usadas | O(V + E) esperado |
 
 Aqui, `Δ` é o grau máximo. Em `circuito_euler`, a escolha do menor vizinho
 disponível com `min(vizinhos)` torna o resultado determinístico, mas custa até
@@ -48,7 +55,7 @@ grafo sem arestas **não é Euleriano**: não há ruas a percorrer. Embora `cone
 retorne verdadeiro por vacuidade nesse caso, `euleriano` o rejeita de forma
 explícita. `valida_circuito` também rejeita um grafo vazio.
 
-O validador verifica se o circuito é não vazio, começa e termina no mesmo
+O validador rejeita um circuito ausente (`None`) e verifica se ele é não vazio, começa e termina no mesmo
 vértice, tem exatamente `E` passos, usa somente arestas existentes, não repete
 nenhuma aresta e usa todas elas. Nenhuma biblioteca externa decide a condição
 de Euler ou constrói o circuito. A visualização usa `matplotlib` quando
@@ -90,7 +97,7 @@ test_dois_triangulos_desconexos (__main__.TestesObrigatorios.test_dois_triangulo
 test_grafo_vazio (__main__.TestesObrigatorios.test_grafo_vazio) ... ok
 
 ----------------------------------------------------------------------
-Ran 11 tests in 0.006s
+Ran 11 tests in 0.005s
 
 OK
 ```

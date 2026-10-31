@@ -20,6 +20,14 @@ Os comandos chamam diretamente o Python da `.venv`; não é necessário ativá-l
 Se `py` não estiver disponível, use `python -m venv .venv` na primeira linha,
 após confirmar que `python --version` indica Python 3.12.
 
+## Relatório em PDF
+
+O relatório para leitura e entrega está em
+[RELATORIO.pdf](RELATORIO.pdf). O arquivo `RELATORIO.md` é a versão editável
+do mesmo conteúdo.
+
+## Saída dos experimentos
+
 O programa informa o grafo encontrado, seus graus, o circuito, o resultado da
 validação e as estatísticas dos 1000 grafos. A última linha sobre a figura
 informa o arquivo gerado: `grafo_euleriano.png` com `matplotlib` ou
@@ -44,6 +52,7 @@ permanecem fixos.
   experimentos.
 - `testes.py`: quatro casos obrigatórios e testes adicionais.
 - `RELATORIO.md`: implementação, resultados observados e análise.
+- `RELATORIO.pdf`: versão diagramada do relatório para entrega.
 - `grafo_euleriano.svg` e `grafo_euleriano.png`: visualizações do grafo
   encontrado. O PNG está incorporado ao relatório.
 - `requirements.txt`: dependência da visualização com `matplotlib`.

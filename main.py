@@ -2,7 +2,6 @@ from __future__ import annotations
 import random, time, math, argparse
 from collections import deque
 from pathlib import Path
-from collections.abc import Iterable
 from xml.sax.saxutils import escape
 
 
@@ -12,40 +11,40 @@ P = 0.30
 SEED = 482
 
 
-def gerar_grafo(qtd_vertices, prob, rng):
+def gerar_grafo(qtd_vertices, prob, rng=random):
     if qtd_vertices < 1:
-        raise ValueError(" qtd_vertices nao pode ser negativo")
+        raise ValueError("qtd_vertices deve ser positivo")
     if not 0 <= prob <= 1:
         raise ValueError("probabilidade deve estar entre 0 e 1")
 
     grafo = {}
     for v in range(1, qtd_vertices + 1):
-        grafo[v] = set() # gera um conjunto pra cada um dos vertices do grafo 
+        grafo[v] = set() # gera um conjunto pra cada um dos vertices do grafo
 
-    for u in range(1, qtd_vertices + 1): # para cada vertice do grafo 
-        for v in range(u + 1, qtd_vertices + 1):# percorre os outros vertices sem ser o atual 
-            if rng.random() < prob: # calcula a chance de ter a aresta 
+    for u in range(1, qtd_vertices + 1): # para cada vertice do grafo
+        for v in range(u + 1, qtd_vertices + 1):# percorre os outros vertices sem ser o atual
+            if rng.random() < prob: # calcula a chance de ter a aresta
                 grafo[u].add(v) # adciona a aresta tanto no nó u quanto no nó v
                 grafo[v].add(u)
     return grafo
 
 
-def arestas(grafo): # retornar as aretas ordenadas 
+def arestas(grafo): # retornar as aretas ordenadas
     arestas = []
 
-    for u, vizinhos in grafo.items():     # percorre u e seus vizinhos 
-        for v in vizinhos:                # para cada vizinho v 
-            if u < v:                     # se u for menor que v adciona tupla na lista 
-                arestas.append((u, v))    
+    for u, vizinhos in grafo.items():     # percorre u e seus vizinhos
+        for v in vizinhos:                # para cada vizinho v
+            if u < v:                     # se u for menor que v adciona tupla na lista
+                arestas.append((u, v))
     arestas_ordenadas = sorted(arestas)
 
     return arestas_ordenadas
 
 
-def grafo_de_arestas(n_vertices, lista): #funcao que ajuda a testar grafos especificos 
+def grafo_de_arestas(n_vertices, lista): #funcao que ajuda a testar grafos especificos
     if n_vertices < 1:
         raise ValueError("n deve ser positivo")
-    grafo = {}                             
+    grafo = {}
     for v in range(1, n_vertices + 1):
         grafo[v] = set()
 
@@ -58,35 +57,35 @@ def grafo_de_arestas(n_vertices, lista): #funcao que ajuda a testar grafos espec
 
 
 def graus(grafo):
-    resultado = {}                         
+    resultado = {}
     for v, vizinhos in grafo.items():
         resultado[v] = len(vizinhos)       # calcula o grau
-    return resultado                       # dict com os graus 
+    return resultado                       # dict com os graus
 
 
 def conexo(grafo):
     ativos = set() # ativos == possuem alguma aresta
     for v, vizinhos in grafo.items():
-        if len(vizinhos) > 0:    
+        if len(vizinhos) > 0:
             ativos.add(v)
 
     if len(ativos) == 0:
-        return True # caso base 
+        return True # caso base
 
     visitados = set()
     inicio = min(ativos)
     visitados.add(inicio)
 
-    fila = deque() #cria fila 
-    fila.append(inicio) #bota o inicio na fila 
+    fila = deque() #cria fila
+    fila.append(inicio) #bota o inicio na fila
 
     while len(fila) > 0:
-        u = fila.popleft() #tira o primeiro vertice da fila 
-        
-        for v in grafo[u]:             #percorre todos os vizinhos 
+        u = fila.popleft() #tira o primeiro vertice da fila
+
+        for v in grafo[u]:             #percorre todos os vizinhos
             if v not in visitados:     # se o vizinho ainda nao foi visitado
                 visitados.add(v)       # marca como visitado
-                fila.append(v) #bota na fila pra visitar os vizinhos de v  
+                fila.append(v) #bota na fila pra visitar os vizinhos de v
 
     if visitados == ativos:
         return True
@@ -104,12 +103,12 @@ def euleriano(grafo):
     if tem_arestas == False:
         return False
     cond_conexo = conexo(grafo)
-    cond_pares = True #assumimos que atende essa condicao 
+    cond_pares = True #assumimos que atende essa condicao
     dicionario_graus = graus(grafo)
-    
-    for grau in dicionario_graus.values(): 
+
+    for grau in dicionario_graus.values():
         if grau > 0:
-            if grau % 2 != 0:          #tem grau impar 
+            if grau % 2 != 0:          #tem grau impar
                 cond_pares = False     # A regra foi quebrada
                 break
 
@@ -120,12 +119,12 @@ def euleriano(grafo):
 
 
 def circuito_euler(grafo):
-    if euleriano(grafo) == False: 
+    if euleriano(grafo) == False:
         return None
 
     restante = {}
     for v, vizinhos in grafo.items():
-        restante[v] = vizinhos.copy()  #copia o grafo pra poder apagar arestas 
+        restante[v] = vizinhos.copy()  #copia o grafo pra poder apagar arestas
 
     vertices_ativos = []
     for v, vizinhos in restante.items():
@@ -138,19 +137,19 @@ def circuito_euler(grafo):
     percurso_reverso = []
 
     while len(pilha) > 0:
-        u = pilha[-1] # explora o ultimo vertice mas sem remover 
-        
-        if len(restante[u]) > 0:       
-            # ainda tem aresta no ponto em que estamos 
+        u = pilha[-1] # explora o ultimo vertice mas sem remover
+
+        if len(restante[u]) > 0:
+            # ainda tem aresta no ponto em que estamos
             v = min(restante[u])  #pega o menor
 
-            # apaga a aresta 
+            # apaga a aresta
             restante[u].remove(v)
             restante[v].remove(u)
-            
+
             # vai pro novo  vertice e coloca ele no topo da pilha
             pilha.append(v)
-            
+
         else:
             # todas as arestas do vertice em que estamos ja foram apagadas
             vertice_preso = pilha.pop() # Tira o vértice do topo da pilha
@@ -166,8 +165,9 @@ def valida_circuito(grafo, circuito):
         if len(vizinhos) > 0:
             tem_arestas = True
             break
-            
-    if tem_arestas == False or len(circuito) == 0:
+
+    # sem ruas, sem circuito (convencao do trabalho) ou circuito vazio: invalido
+    if tem_arestas == False or circuito is None or len(circuito) == 0:
         return False
 
     if circuito[0] != circuito[-1]:
@@ -175,11 +175,11 @@ def valida_circuito(grafo, circuito):
 
     arestas_originais = set()
     for u, vizinhos in grafo.items():
-        for v in vizinhos: 
+        for v in vizinhos:
             aresta = frozenset([u, v]) # frozenset garante que a aresta (1, 2) eh igual a (2,1), dado que o grafo eh nao direcionado
             arestas_originais.add(aresta)
-            
-    # se a quantidade de passos for diferente do total de ruas deu ruim 
+
+    # se a quantidade de passos for diferente do total de ruas deu ruim
     if (len(circuito) - 1) != len(arestas_originais):
         return False
 
@@ -190,12 +190,12 @@ def valida_circuito(grafo, circuito):
 
         if u not in grafo or v not in grafo[u]: # pra nao evitar "saltos" no grafo
             return False
-            
+
         aresta_atual = frozenset([u, v])
         if aresta_atual in usadas:
             return False
         usadas.add(aresta_atual)
-    
+
     if usadas == arestas_originais:
         return True
     else:
