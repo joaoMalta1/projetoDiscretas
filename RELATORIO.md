@@ -33,7 +33,7 @@ os 45 pares `(u, v)`, com `u < v`, em ordem fixa e usa um gerador
 | Função | Papel | Complexidade |
 | --- | --- | --- |
 | `gerar_grafo` | Sorteia os pares possíveis | O(V²) |
-| `grafo_de_arestas` | Monta os grafos dos testes | O(V + E) esperado |
+| `grafo_de_arestas` | Monta um grafo a partir de arestas | O(V + E) esperado |
 | `arestas` | Lista as arestas em ordem | O(V + E log E) |
 | `graus` | Calcula o grau de cada vértice | O(V) |
 | `conexo` | Busca em largura nos vértices de grau não nulo | O(V + E) |
@@ -76,31 +76,12 @@ Impressão e desenho ficam fora das medições.
 | Dois triângulos separados | Graus pares, mas desconexo | Não Euleriano; passou |
 | Grafo vazio | Convenção explícita; `[1]` inválido | Não Euleriano; passou |
 
-Também foram testados um C4 com dois vértices isolados, uma borboleta de dois
-triângulos com vértice comum, K5, preservação do grafo original, rejeição de
+Os quatro casos acima foram verificados localmente. Também foram testados um C4
+com dois vértices isolados, uma borboleta de dois triângulos com vértice comum,
+K5, preservação do grafo original, rejeição de
 circuitos inválidos, simetria e reprodutibilidade da geração, os limites
-`p = 0` e `p = 1` e 500 grafos aleatórios.
-
-Saída real de `python testes.py -v`:
-
-```text
-test_borboleta_exige_unir_subciclos (__main__.TestesExtras.test_borboleta_exige_unir_subciclos) ... ok
-test_ciclo_com_vertices_isolados (__main__.TestesExtras.test_ciclo_com_vertices_isolados) ... ok
-test_construcao_nao_modifica_grafo (__main__.TestesExtras.test_construcao_nao_modifica_grafo) ... ok
-test_gerador_seed_simetria_limites (__main__.TestesExtras.test_gerador_seed_simetria_limites) ... ok
-test_k5 (__main__.TestesExtras.test_k5) ... ok
-test_propriedade_em_grafos_aleatorios (__main__.TestesExtras.test_propriedade_em_grafos_aleatorios) ... ok
-test_validador_rejeita_circuitos_invalidos (__main__.TestesExtras.test_validador_rejeita_circuitos_invalidos) ... ok
-test_caminho_p4 (__main__.TestesObrigatorios.test_caminho_p4) ... ok
-test_ciclo_c4 (__main__.TestesObrigatorios.test_ciclo_c4) ... ok
-test_dois_triangulos_desconexos (__main__.TestesObrigatorios.test_dois_triangulos_desconexos) ... ok
-test_grafo_vazio (__main__.TestesObrigatorios.test_grafo_vazio) ... ok
-
-----------------------------------------------------------------------
-Ran 11 tests in 0.005s
-
-OK
-```
+`p = 0` e `p = 1` e 500 grafos aleatórios. As 11 verificações automatizadas
+passaram na execução local.
 
 ## 4. Resultados
 

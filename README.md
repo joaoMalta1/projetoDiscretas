@@ -12,7 +12,6 @@ No PowerShell, dentro deste diretório, use Python 3.12:
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe testes.py -v
 .\.venv\Scripts\python.exe main.py
 ```
 
@@ -50,7 +49,6 @@ permanecem fixos.
 
 - `main.py`: geração, critérios de Euler, Hierholzer, validação, figura e
   experimentos.
-- `testes.py`: quatro casos obrigatórios e testes adicionais.
 - `RELATORIO.md`: implementação, resultados observados e análise.
 - `RELATORIO.pdf`: versão diagramada do relatório para entrega.
 - `grafo_euleriano.svg` e `grafo_euleriano.png`: visualizações do grafo
