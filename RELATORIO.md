@@ -55,8 +55,9 @@ grafo sem arestas **não é Euleriano**: não há ruas a percorrer. Embora `cone
 retorne verdadeiro por vacuidade nesse caso, `euleriano` o rejeita de forma
 explícita. `valida_circuito` também rejeita um grafo vazio.
 
-O validador rejeita um circuito ausente (`None`) e verifica se ele é não vazio, começa e termina no mesmo
-vértice, tem exatamente `E` passos, usa somente arestas existentes, não repete
+O validador rejeita um circuito ausente (`None`) ou vazio. Também verifica se
+ele começa e termina no mesmo vértice, tem exatamente `E` passos, usa somente
+arestas existentes, não repete
 nenhuma aresta e usa todas elas. Nenhuma biblioteca externa decide a condição
 de Euler ou constrói o circuito. A visualização usa `matplotlib` quando
 disponível e pode ser produzida em SVG pela biblioteca padrão.

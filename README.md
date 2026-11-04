@@ -15,7 +15,8 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe main.py
 ```
 
-Os comandos chamam diretamente o Python da `.venv`, então não é necessário ativá-la.
+Os comandos chamam diretamente o Python da `.venv`, então não é necessário
+ativá-la.
 Se `py` não estiver disponível, use `python -m venv .venv` na primeira linha,
 após confirmar que `python --version` indica Python 3.12.
 
@@ -41,8 +42,8 @@ Opções adicionais:
 
 `--sem-figura` executa apenas os experimentos. `--repeticoes K` altera somente
 o tamanho do segundo experimento e exige um inteiro positivo. A execução
-oficial usa 1000 grafos, e a rodada maior é complementar. Os parâmetros do grupo
-permanecem fixos.
+oficial usa 1000 grafos, e a rodada maior é complementar. Os parâmetros do
+grupo permanecem fixos.
 
 ## Arquivos
 
