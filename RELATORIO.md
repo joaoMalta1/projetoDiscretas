@@ -76,12 +76,11 @@ Impressão e desenho ficam fora das medições.
 | Dois triângulos separados | Graus pares, mas desconexo | Não Euleriano; passou |
 | Grafo vazio | Convenção explícita; `[1]` inválido | Não Euleriano; passou |
 
-Os quatro casos acima foram verificados localmente. Também foram testados um C4
-com dois vértices isolados, uma borboleta de dois triângulos com vértice comum,
-K5, preservação do grafo original, rejeição de
-circuitos inválidos, simetria e reprodutibilidade da geração, os limites
-`p = 0` e `p = 1` e 500 grafos aleatórios. As 11 verificações automatizadas
-passaram na execução local.
+Os quatro casos foram executados com as funções do próprio programa
+(`grafo_de_arestas`, `conexo`, `euleriano`, `circuito_euler` e
+`valida_circuito`) e produziram os resultados da tabela. No C4, o circuito
+obtido foi `1 -> 2 -> 3 -> 4 -> 1`, considerado válido. Nos outros três casos,
+`euleriano` retornou falso e `circuito_euler` não construiu circuito.
 
 ## 4. Resultados
 

@@ -24,17 +24,17 @@ def gerar_grafo(qtd_vertices, prob, rng=random):
     for u in range(1, qtd_vertices + 1): # para cada vertice do grafo
         for v in range(u + 1, qtd_vertices + 1):# percorre os outros vertices sem ser o atual
             if rng.random() < prob: # calcula a chance de ter a aresta
-                grafo[u].add(v) # adciona a aresta tanto no nó u quanto no nó v
+                grafo[u].add(v) # adiciona a aresta tanto no nó u quanto no nó v
                 grafo[v].add(u)
     return grafo
 
 
-def arestas(grafo): # retornar as aretas ordenadas
+def arestas(grafo): # retorna as arestas ordenadas
     arestas = []
 
     for u, vizinhos in grafo.items():     # percorre u e seus vizinhos
         for v in vizinhos:                # para cada vizinho v
-            if u < v:                     # se u for menor que v adciona tupla na lista
+            if u < v:                     # se u for menor que v adiciona tupla na lista
                 arestas.append((u, v))
     arestas_ordenadas = sorted(arestas)
 
@@ -49,7 +49,7 @@ def grafo_de_arestas(n_vertices, lista): #funcao que ajuda a testar grafos espec
         grafo[v] = set()
 
     for u, v in lista:
-        if u not in grafo or v not in grafo or u == v or v in grafo[u]: #valida as arestas, se nao tem laco, se nao tem paralelas e se conecta somenets os vertices do grfo
+        if u not in grafo or v not in grafo or u == v or v in grafo[u]: #valida as arestas, se nao tem laco, se nao tem paralelas e se conecta somente os vertices do grafo
             raise ValueError(f"aresta invalida: ({u}, {v})")
         grafo[u].add(v)
         grafo[v].add(u)
@@ -188,7 +188,7 @@ def valida_circuito(grafo, circuito):
         u = circuito[i]       # origem
         v = circuito[i + 1]   # destino
 
-        if u not in grafo or v not in grafo[u]: # pra nao evitar "saltos" no grafo
+        if u not in grafo or v not in grafo[u]: # pra evitar "saltos" no grafo
             return False
 
         aresta_atual = frozenset([u, v])

@@ -22,8 +22,7 @@ após confirmar que `python --version` indica Python 3.12.
 ## Relatório em PDF
 
 O relatório para leitura e entrega está em
-[RELATORIO.pdf](RELATORIO.pdf). O arquivo `RELATORIO.md` é a versão editável
-do mesmo conteúdo.
+[RELATORIO.pdf](RELATORIO.pdf).
 
 ## Saída dos experimentos
 
@@ -49,11 +48,11 @@ permanecem fixos.
 
 - `main.py`: geração, critérios de Euler, Hierholzer, validação, figura e
   experimentos.
-- `RELATORIO.md`: implementação, resultados observados e análise.
-- `RELATORIO.pdf`: versão diagramada do relatório para entrega.
-- `grafo_euleriano.svg` e `grafo_euleriano.png`: visualizações do grafo
-  encontrado. O PNG está incorporado ao relatório.
+- `RELATORIO.pdf`: implementação, resultados observados e análise.
 - `requirements.txt`: dependência da visualização com `matplotlib`.
+
+A figura do grafo encontrado (`grafo_euleriano.png`, ou `grafo_euleriano.svg`
+sem `matplotlib`) é criada ao executar `main.py`.
 
 A pasta `.venv` e os arquivos de `__pycache__` são locais à execução e não
 precisam ser entregues.
