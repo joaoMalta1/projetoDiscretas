@@ -13,8 +13,6 @@
 | Rafael Soares Estevão | 2320470 |
 | João Ricardo Malta | 2112714 |
 | Vinícius Lucena Bitu Cortez | 2210458 |
-|  |  |
-|  |  |
 
 ## 1. Problema
 
