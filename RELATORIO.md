@@ -43,7 +43,7 @@ os 45 pares `(u, v)`, com `u < v`, em ordem fixa e usa um gerador
 
 Aqui, `Δ` é o grau máximo. Em `circuito_euler`, a escolha do menor vizinho
 disponível com `min(vizinhos)` torna o resultado determinístico, mas custa até
-O(Δ) por aresta; com dez vértices, `Δ ≤ 9`. O algoritmo usa uma pilha e uma
+O(Δ) por aresta. Com dez vértices, `Δ ≤ 9`. O algoritmo usa uma pilha e uma
 cópia da adjacência, retirando cada aresta nos dois sentidos. Ao esgotar os
 vizinhos de um vértice, ele o adiciona ao percurso reverso. O grafo recebido
 não é alterado.
@@ -72,9 +72,9 @@ Impressão e desenho ficam fora das medições.
 | Caso obrigatório | Condição verificada | Resultado observado |
 | --- | --- | --- |
 | Ciclo C4 | Conexo, graus pares e circuito válido | Passou |
-| Caminho P4 | Dois vértices de grau ímpar | Não Euleriano; passou |
-| Dois triângulos separados | Graus pares, mas desconexo | Não Euleriano; passou |
-| Grafo vazio | Convenção explícita; `[1]` inválido | Não Euleriano; passou |
+| Caminho P4 | Dois vértices de grau ímpar | Passou (não Euleriano) |
+| Dois triângulos separados | Graus pares, mas desconexo | Passou (não Euleriano) |
+| Grafo vazio | Convenção explícita e `[1]` inválido | Passou (não Euleriano) |
 
 Os quatro casos foram executados com as funções do próprio programa
 (`grafo_de_arestas`, `conexo`, `euleriano`, `circuito_euler` e
@@ -158,14 +158,14 @@ grafos oficiais. Foi executada com
 O grafo da tentativa 1294 é um exemplo de que um vértice isolado não impede
 o circuito: todas as ruas pertencem a uma única componente com graus pares.
 Por outro lado, entre os primeiros 1000 grafos da sequência, nenhum tinha
-todos os graus pares; por isso, nenhum era Euleriano, mesmo com 944 conexos.
+todos os graus pares. Por isso, nenhum era Euleriano, mesmo com 944 conexos.
 A proporção observada de 0 nesse lote não significa que a possibilidade seja
 nula, como mostra o grafo encontrado depois da milésima tentativa.
 
 Na rodada complementar, 207 grafos tinham todos os graus pares, mas 5 deles
 eram desconexos. Os outros 202 satisfizeram simultaneamente a condição de
 paridade e a de conectividade e eram Eulerianos. Entre os 100.000, 93.634
-eram conexos, mas falharam pela paridade; 6.159 falharam pelas duas condições.
+eram conexos, mas falharam pela paridade, e 6.159 falharam pelas duas condições.
 Esses dados mostram que ambas as condições são necessárias, embora, nesta
 amostra, a paridade tenha sido a restrição mais frequente. A amostra oficial
 de 1000 é pequena para estimar com precisão uma ocorrência tão rara.
@@ -173,5 +173,5 @@ de 1000 é pequena para estimar com precisão uma ocorrência tão rara.
 ## 6. Execução
 
 As instruções completas estão no [README.md](README.md). Os números deste
-relatório vieram das execuções do programa; os tempos são ilustrativos e
+relatório vieram das execuções do programa. Os tempos são ilustrativos e
 podem mudar a cada execução.
